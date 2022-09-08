@@ -7,6 +7,11 @@
 	<RootNamespace>NWS.net</RootNamespace>
 	<AssemblyName>NWS.net</AssemblyName>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<ApplicationIcon />
+	<OutputType>Exe</OutputType>
+	<StartupObject />
+	<Authors>Neal Birchfield</Authors>
+	<Company>Neal Birchfield</Company>
   </PropertyGroup>
 	
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
