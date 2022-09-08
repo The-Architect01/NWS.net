@@ -1,8 +1,10 @@
 ﻿global using System;
 global using System.ComponentModel;
 global using System.IO;
+global using System.Linq;
 global using System.Net;
 global using System.Collections.Generic;
+global using System.Diagnostics;
 
 namespace NWS.net {
     public class NWSAPI {
@@ -16,6 +18,7 @@ namespace NWS.net {
         public Forecast Forecast { get { return new Forecast(Location.ForecastURL); } }
         public Alerts Alerts { get { return new Alerts(Position); } }
         public WeatherMaps WeatherMap { get { return new WeatherMaps(Location.RadarStation); } }
+        public CurrentConditions CurrentWeather { get { return new CurrentConditions(Position); } }
 
         public NWSAPI(string IP) {
             using WebClient wc = new();
@@ -84,6 +87,19 @@ namespace NWS.net {
             } catch (Exception) {
                 Position = DEFAULT;
             }
+        }
+
+        public static bool IsDay {
+            get {
+                return DateTime.Now.TimeOfDay > new TimeSpan(6, 00, 1) && DateTime.Now.TimeOfDay < new TimeSpan(18, 59, 59); //Between 6:00:01 AM and 6:59:59 PM
+            }
+        }
+
+        public override string ToString() {
+            return $"{Location.City},{Location.State}\n" +
+                $"{Position[0]},{Position[1]}\n" +
+                $"{CurrentWeather}\n" +
+                $"\\Weather Icons\\{(Alerts.ActiveAlerts.Any(i => NWSExtensions.Special.Contains(i.Event))? $"{NWSExtensions.GetSpecial(Alerts.ActiveAlerts.First(i=>NWSExtensions.Special.Contains(i.Event)).Event)}.png":$"{CurrentWeather.CurrentWeather}_{(IsDay?"Day":"Night")}.png")}";
         }
     }
 }
