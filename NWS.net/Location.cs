@@ -23,7 +23,6 @@
             string currentLine = string.Empty;
 
             do {
-
                 currentLine = parser.ReadLine();
                 try {
                     if (currentLine.Contains("\"gridX\": ")) {

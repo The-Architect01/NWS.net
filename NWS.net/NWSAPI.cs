@@ -14,11 +14,11 @@ namespace NWS.net {
         private double[] Position { get; set; } = new double[2];
         #endregion
 
-        public Location Location { get { return new Location(Position); } }
-        public Forecast Forecast { get { return new Forecast(Location.ForecastURL); } }
-        public Alerts Alerts { get { return new Alerts(Position); } }
-        public WeatherMaps WeatherMap { get { return new WeatherMaps(Location.RadarStation); } }
-        public CurrentConditions CurrentWeather { get { return new CurrentConditions(Position); } }
+        public Location Location;// { get { return new Location(Position); } }
+        public Forecast Forecast; //{ get { return new Forecast(Location.ForecastURL); } }
+        public Alerts Alerts; //{ get { return new Alerts(Position); } }
+        public WeatherMaps WeatherMap;// { get { return new WeatherMaps(Location.RadarStation); } }
+        public CurrentConditions CurrentWeather;// { get { return new CurrentConditions(Position); } }
 
         public NWSAPI(string IP) {
             using WebClient wc = new();
@@ -78,6 +78,11 @@ namespace NWS.net {
         public NWSAPI(double Latitude, double Longitude) {
             Position[0] = Latitude;
             Position[1] = Longitude;
+            Location = new Location(Position);
+            Forecast = new Forecast(Location.ForecastURL);
+            Alerts = new Alerts(Position);
+            WeatherMap = new WeatherMaps(Location.RadarStation);
+            CurrentWeather = new CurrentConditions(Position);
         }
 
         public NWSAPI(string Latitude, string Longitude) {
